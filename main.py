@@ -8,9 +8,7 @@ import database as db
 from shemas import Paper, PaperPost
 
 app = FastAPI()
-origins = [
-    "https://paper-note-frontend.vercel.app",
-]
+origins = ["https://paper-note-frontend.vercel.app"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,9 +30,15 @@ async def get_all_papers():
     return papers
 
 
-@app.get("/api/papers/{tag}/", response_model=List[Paper])
+@app.get("/api/search/tag/{tag}/", response_model=List[Paper])
 async def get_papers_by_tag(tag: str):
     papers = await db.get_papers_by_tag(tag)
+    return papers
+
+
+@app.get("/api/search/title/{title}/", response_model=List[Paper])
+async def get_papers_by_title(title: str):
+    papers = await db.get_papers_by_title(title)
     return papers
 
 

@@ -52,6 +52,14 @@ async def get_papers_by_tag(tag: str):
     return papers
 
 
+async def get_papers_by_title(title: str):
+    papers = []
+    cursor = collection_paper.find(filter={"title": {"$regex": title}})
+    for paper in await cursor.to_list(length=100):
+        papers.append(paper_serializer(paper))
+    return papers
+
+
 async def update_paper(id: str, data: dict):
     paper = await collection_paper.find_one({"_id": ObjectId(id)})
     if paper:
