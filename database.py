@@ -31,7 +31,7 @@ async def create_paper(data: dict):
 
 async def get_all_papers():
     papers = []
-    cursor = collection_paper.find()
+    cursor = collection_paper.find().sort("_id", -1)
     for paper in await cursor.to_list(length=100):
         papers.append(paper_serializer(paper))
     return papers
