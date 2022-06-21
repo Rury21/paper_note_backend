@@ -25,8 +25,8 @@ async def root():
 
 
 @app.get("/api/papers/", response_model=List[Paper])
-async def get_all_papers():
-    papers = await db.get_all_papers()
+async def get_all_papers(sort: str = "LATEST"):
+    papers = await db.get_all_papers(sort)
     return papers
 
 

@@ -29,11 +29,20 @@ async def create_paper(data: dict):
     return False
 
 
-async def get_all_papers():
+async def get_all_papers(sort: str):
     papers = []
-    cursor = collection_paper.find().sort("_id", -1)
-    for paper in await cursor.to_list(length=100):
-        papers.append(paper_serializer(paper))
+    if sort == "LATEST":
+        cursor = collection_paper.find().sort("_id", -1)
+        for paper in await cursor.to_list(length=100):
+            papers.append(paper_serializer(paper))
+    elif sort == "ASC":
+        cursor = collection_paper.find().sort("year", 1)
+        for paper in await cursor.to_list(length=100):
+            papers.append(paper_serializer(paper))
+    elif sort == "DESC":
+        cursor = collection_paper.find().sort("year", -1)
+        for paper in await cursor.to_list(length=100):
+            papers.append(paper_serializer(paper))
     return papers
 
 
